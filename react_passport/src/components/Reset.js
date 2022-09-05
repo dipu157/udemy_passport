@@ -1,32 +1,30 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 import { Button, Form } from 'react-bootstrap'
-import { Link, Redirect } from 'react-router-dom'
 
-export default class Login extends Component {
+export default class Reset extends Component {
 
   state = {
     email: '',
+    token: '',
     password: '',
+    password_confirmation:'',
     message: ''
   }
-
-  // Login Form Submit
 
   formSubmit = (e) => {
     e.preventDefault();
     const data = {
       email: this.state.email,
-      password: this.state.password
+      token: this.state.token,
+      password: this.state.password,
+      password_confirmation: this.state.password_confirmation
     }
 
-    axios.post('/login',data)
+    axios.post('/resetpassword',data)
     .then((response) => {
-      localStorage.setItem('token',response.data.token);
-      this.setState({
-        loggedIn:true
-      })
-      this.props.setUser(response.data.user);
+      this.setState({message:response.data.message})
+      document.getElementById("forgetForm").reset();
     })
     .catch((error) => {
       this.setState({message:error.response.data.message})
@@ -44,35 +42,32 @@ export default class Login extends Component {
       )
     }
 
-    if(localStorage.getItem('token')){
-      return <Redirect to='/profile' />
-    }
-
-    if(this.state.loggedIn){
-        return <Redirect to={'/profile'} />
-    }
-
     return (
       <div className="container col-4 card mt-4 p-3 shadow-lg">
         <Form onSubmit={this.formSubmit}>
           {error}
-            <span><h1 className="pb-3">Login Form</h1></span>
+            <span><h1 className="pb-3">Reset Form</h1></span>
         <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Control type="email" name="email" placeholder="Enter email" required onChange={(e) => {
               this.setState({email:e.target.value})}} />
-            <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-            </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Control type="password" name='password' placeholder="Password" required onChange={(e) => {
+            <Form.Control type="text" name='token' placeholder="PIN" required onChange={(e) => {
+              this.setState({token:e.target.value})}} />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control type="password" name='password' placeholder="New Password" required onChange={(e) => {
               this.setState({password:e.target.value})}} />
         </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control type="password" name="password_confirmation" placeholder="Confirm Password" onChange={(e) => {
+              this.setState({password_confirmation:e.target.value})}} />
+        </Form.Group>
         <Button variant="primary" type="submit">
-            LOGIN
+            RESET
         </Button>
-        <h6 style={{ textAlign:'left' , marginTop: '10px' }}>Froget Password <Link to="/forget">Click Here</Link></h6>
         </Form>
       </div>
     )
