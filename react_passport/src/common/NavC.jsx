@@ -7,10 +7,10 @@ export default class NavC extends Component {
       <div>
         <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <Navbar.Brand href="/home">Navbar</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Profile</Nav.Link>            
+            <Nav.Link href="/home">Home</Nav.Link>
+            <Nav.Link href="/profile">Profile</Nav.Link>            
           </Nav>
 
           <Nav>

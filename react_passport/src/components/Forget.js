@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Button, Form } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 
 export default class Forget extends Component {
   render() {
